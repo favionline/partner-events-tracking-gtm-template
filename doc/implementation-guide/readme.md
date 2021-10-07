@@ -26,13 +26,23 @@ Use the template by following these steps:
 
 2. find the `FAVI Partner Events Tracking` template and select it,
 
+![Import Tag Template -> `FAVI Partner Events Tracking`](2-find-template.png)
+
 3. add the template to your workspace,
+
+![Add to workspace](3-add-to-workspace.png)
 
 4. configure the tag based on the event type (see below).
 
+![Tag configuration](4-tag-configuration.png)
+
 You will need to go through steps 1-3. only the first time, then you can find the tag template in the `Custom` section.
 
+![Add tag](add-tag.png)
+
 ### `createOrder` event
+
+![Tag configuration](4-tag-configuration.png)
 
 In `createOrder Event Data` field, you need to provide a GTM variable with order data. In GTM there are multiple ways how to pass this data, typically it can be based on a *Data Layer Variable*, a *Custom JavaScript* variable or any other option. You might even already have an order variable ready used for a different service.
 
