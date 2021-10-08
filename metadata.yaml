@@ -14,3 +14,7 @@
 
 homepage: 'https://www.favionline.com/'
 documentation: 'https://github.com/favionline/partner-events-tracking-gtm-template/blob/master/doc/implementation-guide/readme.md'
+versions:
+  -
+    sha: 'ddfea286e6d022fa29dcc64d591da879ee3248cc'
+    changeNotes: 'Initial Version - v1'
