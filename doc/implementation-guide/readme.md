@@ -42,6 +42,8 @@ You will need to go through steps 1-3. only the first time, then you can find th
 
 ### `createOrder` event
 
+Use this event after an order is created on your e-shop with products that you advertise on FAVI. We will send a review request to the customer.
+
 ![Tag configuration](4-tag-configuration.png)
 
 In `createOrder Event Data` field, you need to provide a GTM variable with order data. In GTM there are multiple ways how to pass this data, typically it can be based on a *Data Layer Variable*, a *Custom JavaScript* variable or any other option. You might even already have an order variable ready used for a different service.
