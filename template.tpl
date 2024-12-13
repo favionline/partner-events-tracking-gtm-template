@@ -116,16 +116,7 @@ if (getType(copyFromWindow('faviPartnerEventsTracking')) === 'undefined') {
   setInWindow('faviPartnerEventsTracking', function() {
     callInWindow('faviPartnerEventsTracking.queue.push', arguments);
   });
-}
-
-if (getType(copyFromWindow('faviPartnerEventsTracking.queue')) === 'undefined') {
   setInWindow('faviPartnerEventsTracking.queue', []);
-}
-
-if (!(
-  getType(copyFromWindow('faviPartnerEventsTracking')) === 'function'
-  && callInWindow('faviPartnerEventsTracking.isTrackerInitialized') === true
-)) {
   callInWindow('faviPartnerEventsTracking', 'init', data.trackingId, {
     debug: data.debug,
   });
