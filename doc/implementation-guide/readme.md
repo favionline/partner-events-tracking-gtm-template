@@ -40,6 +40,20 @@ You will need to go through steps 1-3. only the first time, then you can find th
 
 ![Add tag](add-tag.png)
 
+### How to verify that the events are triggering correctly
+
+The best way to verify that the events are triggering correctly is to turn on the `Debug Mode` in the tag configuration.
+
+Then you will see all the events that are triggered and registered by the tracking script in the browser console / developer tools (usually F12 in browser).
+
+If GTM tags are firing, but you see no events being logged, you should see error messages in web console.
+
+You should also see network requests being sent to `https://partner-events.favi.{XX}`, where `{XX}` is the country where your e-shop is registered.
+
+Chrome and Chrome-based browsers may not show responses for failed requests, so in order to see helpful error messages from the API, please try using Firefox or the most reliable way is using a "copy as cURL" feature on the request.
+
+If your e-shop is using Content Security Policy, see the dedicated section below.
+
 ### `createOrder` event
 
 Use this event after an order is created on your e-shop with products that you advertise on FAVI. We will send a review request to the customer.
@@ -49,10 +63,6 @@ Use this event after an order is created on your e-shop with products that you a
 In `createOrder Event Data` field, you need to provide a GTM variable with order data. In GTM there are multiple ways how to pass this data, typically it can be based on a *Data Layer Variable*, a *Custom JavaScript* variable or any other option. You might even already have an order variable ready used for a different service.
 
 **In any case please make sure the format of the object returned by the selected variable matches the format described below.**
-
-If you are doing something wrong, you should see error messages in web console / developer tools (usually F12 in browser). When you are all set up, you should see network requests being sent to `https://partner-events.favi.{XX}`, where `{XX}` is the country where your e-shop is registered.
-
-Chrome and Chrome-based browsers may not show responses for failed requests, so in order to see helpful error messages from the API, please try using Firefox or the most reliable way is using a "copy as cURL" feature on the request.
 
 `order` is an object with the following format:
 

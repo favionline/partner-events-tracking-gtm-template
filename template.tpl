@@ -57,6 +57,13 @@ ___TEMPLATE_PARAMETERS___
     "help": "Required. Tracking ID is assigned by FAVI"
   },
   {
+    "type": "CHECKBOX",
+    "name": "debug",
+    "checkboxText": "Debug Mode",
+    "simpleValueType": true,
+    "help": "Logs all triggered events to the browser console."
+  },
+  {
     "type": "SELECT",
     "name": "eventType",
     "displayName": "Event Type",
@@ -119,7 +126,9 @@ if (!(
   getType(copyFromWindow('faviPartnerEventsTracking')) === 'function'
   && callInWindow('faviPartnerEventsTracking.isTrackerInitialized') === true
 )) {
-  callInWindow('faviPartnerEventsTracking', 'init', data.trackingId);
+  callInWindow('faviPartnerEventsTracking', 'init', data.trackingId, {
+    debug: data.debug,
+  });
 }
 
 callInWindow('faviPartnerEventsTracking', 'createOrder', data.createOrderEventData);
