@@ -69,6 +69,14 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Event Type",
     "selectItems": [
       {
+        "value": "pageView",
+        "displayValue": "pageView"
+      },
+      {
+        "value": "productDetailView",
+        "displayValue": "productDetailView"
+      },
+      {
         "value": "createOrder",
         "displayValue": "createOrder"
       }
@@ -79,7 +87,42 @@ ___TEMPLATE_PARAMETERS___
         "type": "NON_EMPTY"
       }
     ],
-    "help": "This version of template supports only `createOrder` event type, but more will be comming in the future. Keep an eye out for updates.",
+    "help": "Which event type should be sent. See the documentation linked above to read what events should be fired when and what additional information do they need.",
+    "alwaysInSummary": true
+  },
+  {
+    "type": "TEXT",
+    "name": "url",
+    "displayName": "URL (optional)",
+    "simpleValueType": true,
+    "help": "URL must include analytical/marketing query parameters. If URL is not set, current URL will be used. If you need to trigger this event after the URL is manipulated, please store the original URL and pass it to the event explicitly. See documentation for more details.",
+    "enablingConditions": [
+      {
+        "paramName": "eventType",
+        "paramValue": "pageView",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "eventType",
+        "paramValue": "productDetailView",
+        "type": "EQUALS"
+      }
+    ],
+    "alwaysInSummary": true
+  },
+  {
+    "type": "TEXT",
+    "name": "productDetailViewProductId",
+    "displayName": "Product ID (required)",
+    "simpleValueType": true,
+    "help": "Your internal product ID, the same you are sending to FAVI trough XML feed. See documentation for more details.",
+    "enablingConditions": [
+      {
+        "paramName": "eventType",
+        "paramValue": "productDetailView",
+        "type": "EQUALS"
+      }
+    ],
     "alwaysInSummary": true
   },
   {
@@ -122,7 +165,22 @@ if (getType(copyFromWindow('faviPartnerEventsTracking')) === 'undefined') {
   });
 }
 
-callInWindow('faviPartnerEventsTracking', 'createOrder', data.createOrderEventData);
+switch (true) {
+  case data.eventType === 'pageView':
+    callInWindow('faviPartnerEventsTracking', 'pageView', {
+      url: data.url,
+    });
+    break;
+  case data.eventType === 'productDetailView':
+    callInWindow('faviPartnerEventsTracking', 'productDetailView', {
+      url: data.url,
+      productId: data.productDetailViewProductId,
+    });
+    break;
+  case data.eventType === 'createOrder':
+    callInWindow('faviPartnerEventsTracking', 'createOrder', data.createOrderEventData);
+    break;
+}
 
 const scriptUrl = 'https://partner-events.favicdn.net/v1/partnerEventsTracking.js';
 injectScript(scriptUrl, data.gtmOnSuccess, data.gtmOnFailure, scriptUrl);

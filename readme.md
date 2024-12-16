@@ -1,6 +1,9 @@
 # FAVI Partner Events Tracking
 
-This tracking code allows FAVI's partnering shops to participate in FAVI Extra and collect feedback from customers of their online shop.
+This tracking code allows FAVI's partnering shops to
+
+* participate in FAVI Extra and collect feedback from customers of their online shop,
+* measure and optimize campaign performance.
 
 ## Google Tag Manager (GTM) integration
 
