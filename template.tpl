@@ -57,10 +57,25 @@ ___TEMPLATE_PARAMETERS___
     "help": "Required. Tracking ID is assigned by FAVI"
   },
   {
+    "type": "CHECKBOX",
+    "name": "debug",
+    "checkboxText": "Debug Mode",
+    "simpleValueType": true,
+    "help": "Logs all triggered events to the browser console."
+  },
+  {
     "type": "SELECT",
     "name": "eventType",
     "displayName": "Event Type",
     "selectItems": [
+      {
+        "value": "pageView",
+        "displayValue": "pageView"
+      },
+      {
+        "value": "productDetailView",
+        "displayValue": "productDetailView"
+      },
       {
         "value": "createOrder",
         "displayValue": "createOrder"
@@ -72,7 +87,42 @@ ___TEMPLATE_PARAMETERS___
         "type": "NON_EMPTY"
       }
     ],
-    "help": "This version of template supports only `createOrder` event type, but more will be comming in the future. Keep an eye out for updates.",
+    "help": "Which event type should be sent. See the documentation linked above to read what events should be fired when and what additional information do they need.",
+    "alwaysInSummary": true
+  },
+  {
+    "type": "TEXT",
+    "name": "url",
+    "displayName": "URL (optional)",
+    "simpleValueType": true,
+    "help": "URL must include analytical/marketing query parameters. If URL is not set, current URL will be used. If you need to trigger this event after the URL is manipulated, please store the original URL and pass it to the event explicitly. See documentation for more details.",
+    "enablingConditions": [
+      {
+        "paramName": "eventType",
+        "paramValue": "pageView",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "eventType",
+        "paramValue": "productDetailView",
+        "type": "EQUALS"
+      }
+    ],
+    "alwaysInSummary": true
+  },
+  {
+    "type": "TEXT",
+    "name": "productDetailViewProductId",
+    "displayName": "Product ID (required)",
+    "simpleValueType": true,
+    "help": "Your internal product ID, the same you are sending to FAVI trough XML feed. See documentation for more details.",
+    "enablingConditions": [
+      {
+        "paramName": "eventType",
+        "paramValue": "productDetailView",
+        "type": "EQUALS"
+      }
+    ],
     "alwaysInSummary": true
   },
   {
@@ -85,7 +135,7 @@ ___TEMPLATE_PARAMETERS___
         "type": "NON_EMPTY"
       }
     ],
-    "help": "Order data holding required data such as orderId, orderItems and more. See documentation for order format and how to pass it.",
+    "help": "`createOrder` event requires structure with array of order items and other nested objects, so it is passed as a complete `order` object. See documentation for format of the object and how to pass it.",
     "enablingConditions": [
       {
         "paramName": "eventType",
@@ -109,20 +159,28 @@ if (getType(copyFromWindow('faviPartnerEventsTracking')) === 'undefined') {
   setInWindow('faviPartnerEventsTracking', function() {
     callInWindow('faviPartnerEventsTracking.queue.push', arguments);
   });
-}
-
-if (getType(copyFromWindow('faviPartnerEventsTracking.queue')) === 'undefined') {
   setInWindow('faviPartnerEventsTracking.queue', []);
+  callInWindow('faviPartnerEventsTracking', 'init', data.trackingId, {
+    debug: data.debug,
+  });
 }
 
-if (!(
-  getType(copyFromWindow('faviPartnerEventsTracking')) === 'function'
-  && callInWindow('faviPartnerEventsTracking.isTrackerInitialized') === true
-)) {
-  callInWindow('faviPartnerEventsTracking', 'init', data.trackingId);
+switch (true) {
+  case data.eventType === 'pageView':
+    callInWindow('faviPartnerEventsTracking', 'pageView', {
+      url: data.url,
+    });
+    break;
+  case data.eventType === 'productDetailView':
+    callInWindow('faviPartnerEventsTracking', 'productDetailView', {
+      url: data.url,
+      productId: data.productDetailViewProductId,
+    });
+    break;
+  case data.eventType === 'createOrder':
+    callInWindow('faviPartnerEventsTracking', 'createOrder', data.createOrderEventData);
+    break;
 }
-
-callInWindow('faviPartnerEventsTracking', 'createOrder', data.createOrderEventData);
 
 const scriptUrl = 'https://partner-events.favicdn.net/v1/partnerEventsTracking.js';
 injectScript(scriptUrl, data.gtmOnSuccess, data.gtmOnFailure, scriptUrl);
