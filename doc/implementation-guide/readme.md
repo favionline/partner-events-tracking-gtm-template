@@ -93,24 +93,24 @@ For example if you were using a flatter structure for the order object, you can 
 
 ```js
 function() {
-	var order = {{Order}};
+    var order = {{Order}};
 
-	return {
-		orderId: order.id,
-		orderItems: order.items.map(function (item) {
-			return {
-				product: {
-					id: item.id,
-					name: item.name,
-				},
-			};
-		}),
-		customer: {
-			email: order.email,
-			name: order.name,
-		},
-		expectedDeliveryDate: order.expectedDeliveryDate,
-	};
+    return {
+        orderId: order.id,
+        orderItems: order.items.map(function (item) {
+            return {
+                product: {
+                    id: item.id,
+                    name: item.name,
+                },
+            };
+        }),
+        customer: {
+            email: order.email,
+            name: order.name,
+        },
+        expectedDeliveryDate: order.expectedDeliveryDate,
+    };
 }
 ```
 
