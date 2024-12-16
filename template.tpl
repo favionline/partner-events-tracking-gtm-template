@@ -85,7 +85,7 @@ ___TEMPLATE_PARAMETERS___
         "type": "NON_EMPTY"
       }
     ],
-    "help": "Order data holding required data such as orderId, orderItems and more. See documentation for order format and how to pass it.",
+    "help": "`createOrder` event requires structure with array of order items and other nested objects, so it is passed as a complete `order` object. See documentation for format of the object and how to pass it.",
     "enablingConditions": [
       {
         "paramName": "eventType",

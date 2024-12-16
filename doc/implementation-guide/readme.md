@@ -73,7 +73,7 @@ Chrome and Chrome-based browsers may not show responses for failed requests, so 
 * `product` - required, object:
   * `id`
     * required, string
-    * your product ID, must match the ID you are using in XML feed provided to FAVI
+    * your internal product ID, the same you are sending to FAVI through XML feed
   * `name`
     * required, string
     * your product name, must match the name you are using in XML feed provided to FAVI
