@@ -44,6 +44,16 @@ You will need to go through steps 1-3. only the first time, then you can find th
 
 ![Add tag](add-tag.png)
 
+### User consent
+
+To measure campaign performance (e.g., attribution), we store a cookie in the user's browser. Consent to store this cookie is given (or declined) on the FAVI website, and this choice is passed to this tracking code. If consent is not given, no cookie is created.
+
+This means that no further consent is required on your page, and triggering tags based on this template should not be conditional on any other consent.
+
+It's best to set `Advanced Settings` / `Consent Settings` to `No additional consent required` for each tag based on this template. If you leave the default value (`Not set`), GTM might make changes in the future that could prevent correct event tracking.
+
+![Consent Settings](tag-configuration-consent.png)
+
 ### How to verify that the events are triggering correctly
 
 The best way to verify that the events are triggering correctly is to turn on the `Debug Mode` in the tag configuration.
